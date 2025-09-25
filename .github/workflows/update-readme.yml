@@ -1,0 +1,42 @@
+name: Update README
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Запускається щодня о 00:00 UTC
+  workflow_dispatch:     # Дозволяє запускати вручну
+  push:
+    branches: [ main ]
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Update README
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        current_date=$(date +'%d.%m.%Y')
+        current_time=$(date +'%H:%M:%S UTC')
+        
+        quote=$(curl -s "https://api.quotable.io/random" | jq -r '.content // "Keep coding, keep growing! 🚀"')
+        
+        github_user="${{ github.repository_owner }}"
+        
+        repo_stats=$(curl -s "https://api.github.com/users/$github_user")
+        public_repos=$(echo $repo_stats | jq -r '.public_repos // "N/A"')
+        
+        sed -i "s/{CURRENT_DATE}/$current_date/g" README.md
+        sed -i "s/{CURRENT_TIME}/$current_time/g" README.md
+        sed -i "s/{QUOTE_OF_DAY}/$quote/g" README.md
+        sed -i "s/{PUBLIC_REPOS}/$public_repos/g" README.md
+        
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md
+        git diff --staged --quiet || git commit -m "🤖 Auto update README - $(date +'%Y-%m-%d %H:%M:%S')"
+        git push
