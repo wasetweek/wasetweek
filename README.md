@@ -46,6 +46,9 @@
 
 ### 🎮 Цікаві факти
 
+- 🔢 **Загальна кількість комітів:** `{TOTAL_COMMITS}`
+- ⭐ **Зірок отримано:** `{TOTAL_STARS}`
+- 🍴 **Форків створено:** `{TOTAL_FORKS}`
 - 📦 **Публічних репозиторіїв:** `{PUBLIC_REPOS}`
 
 ---
@@ -73,6 +76,13 @@
 ![trophy](https://github-profile-trophy.vercel.app/?username=YOUR_USERNAME&theme=radical&no-frame=true&no-bg=false&margin-w=4)
 
 </div>
+
+---
+
+### 📚 Останні блог пости
+
+<!-- BLOG-POST-LIST:START -->
+<!-- BLOG-POST-LIST:END -->
 
 ---
 
